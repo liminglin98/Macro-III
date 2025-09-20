@@ -1,0 +1,258 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+\title{Problem Set 1}
+\author{Liming Lin and Xinkai Xu}
+\date{Sept.20, 2025}
+\maketitle
+
+\section*{Exercise 1}
+
+\begin{enumerate}[label=\textbf{Question \arabic*:}, leftmargin=*, align=left]
+
+    \item  
+    \[
+\max_{(c_t,k_{t+1})} \sum_{t=0}^{\infty} \beta^t \log(c_t) 
+= \max_{(c_0,k_{t+1})} \Big\{ \log(c_0) + \sum_{t=1}^{\infty} \beta^t \log(c_t) \Big\}.
+\]
+
+\[
+= \max_{(c_0,k_{t+1})} \; \log(c_0) + \beta \max_{(c_t,k_{t+1})} \sum_{t=0}^{\infty} \beta^{t}\log(c_{t+1}).
+\]
+
+Therefore,
+\[
+V(k_0) = \max_{(c_0,k_1)} \Big\{ \log(c_0) + \beta V(k_1) \Big\}.
+\]
+
+The recursive form of the problem is:
+\[
+V(k_t) = \max_{(c_t,k_{t+1})} \Big\{ \log(c_t) + \beta V(k_{t+1}) \Big\}.
+\]
+
+\noindent
+\textbf{State variable:} $k_t$. \\
+\textbf{Control variables:} $c_t, k_{t+1}$.\\
+\textbf{Feasible set:} $\Gamma(k) = \{(c,k_{t+1}) : c_t + k_{t+1} \leq \theta k_t^\alpha, \; c_t,k_{t+1} \geq 0 \}$.
+
+
+Using the resource constraint $c_t = \theta k_t^\alpha - k_{t+1}$, we can rewrite the Bellman equation as:
+\[
+V(k_t) = \max_{(c_t,k_{t+1})} \Big\{ \log(\theta k_t^\alpha - k_{t+1}) + \beta V(k_{t+1}) \Big\}.
+\]
+
+    \item
+    a. FOC wrt to $k_{t+1}$:
+\[
+\frac{1}{\theta k_t^\alpha - k_{t+1}} = \beta V'(k_{t+1}),
+\]
+so
+\[
+\frac{1}{c_t} = \beta V'(k_{t+1}).
+\]
+
+b. Envelope theorem:
+Consider $V'(k_t)$ at optimal value $k_{t+1}=g_k(k_t)$
+\[
+V'(k_{t}) = \frac{1}{\theta k_{t}^\alpha - k_{t+1}} \cdot \alpha \theta k_{t}^{\alpha-1}-\frac{1}{\theta k_{t}^\alpha - k_{t+1}} \cdot g'_k(k_t)+\beta V'(g_k(k_t)) \cdot g'_k(k_{t}).
+\]
+
+Thus
+\[
+V'(k_{t}) = \frac{1}{\theta k_t^\alpha - k_{t+1}}\alpha \theta k_t^{\alpha-1}+g'_k(k_t)(\beta V'(k_{t+1})-\frac{1}{\theta k_{t}^\alpha - k_{t+1}}).
+\]
+Given the FOC, the second term is zero, so
+\[
+V'(k_{t}) = \frac{1}{c_t}\alpha \theta k_t^{\alpha-1}.
+\]
+c. Combining the FOC and the envelope condition, we have
+\[
+\frac{1}{\theta k_t^\alpha - k_{t+1}} = \beta \frac{1}{c_{t+1}}\alpha \theta k_{t+1}^{\alpha-1},
+\]
+or simply
+\[
+u'(c_t) = \beta u'(c_{t+1}) f'(k_{t+1}).
+\]
+
+    \item  
+
+a. Initial guess:
+\[
+V_0(k) = 0.
+\]
+
+Then
+\[
+V_1(k) = \max_{k_{t+1}} \log(\theta k_{t}^\alpha - k_{t+1}).
+\]
+
+Since there is no continuation value, the optimal choice is $k_{t+1}=0$, hence
+\[
+V_1(k) = \log(\theta k_{t}^\alpha).
+\]
+
+
+b. We then compute
+\[
+V_2(k) = \max_{k_{t+2}} \Big\{ \log(\theta k_{t+1}^\alpha - k_{t+2}) + \beta \log(\theta (k_{t+1})^\alpha) \Big\}.
+\]
+
+FOC wrt to $k_{t+2}$:
+\[
+-\frac{1}{\theta k_{t+1}^\alpha - k_{t+2}} + \frac{\beta \alpha}{k_{t+2}} = 0.
+\]
+
+
+So,
+\[
+\frac{1}{\theta k_{t+1}^\alpha - k_{t+2}} = \frac{\beta \alpha}{k_{t+2}}.
+\]
+
+This implies
+\[
+k_{t+2} = \beta \alpha \, \theta k_{t+1}^\alpha.
+\]
+or in general,
+\[
+k_{t+1} = \beta \alpha \, \theta k_{t}^\alpha.
+\]
+
+    \item 
+   We guess the value function has the form
+\[
+V(k) = a_1 + a_2 \log k.
+\]
+
+The Bellman equation is
+\[
+V(k_t) = \max_{k_{t+1}} \Big\{ \log(\theta k_t^\alpha - k_{t+1}) + \beta V(k_{t+1}) \Big\}.
+\]
+
+So
+\[
+V(k_{t+1}) = a_1 + a_2 \log k_{t+1}
+\]
+and thus 
+\[
+V(k_t) = \max_{k_{t+1}} \Big\{ \log(\theta k_t^\alpha - k_{t+1}) + \beta (a_1 + a_2 \log k_{t+1}) \Big\}.
+\]
+
+FOC wrt to $k_{t+1}$:
+\[
+-\frac{1}{\theta k_t^\alpha - k_{t+1}} + \frac{\beta a_2}{k_{t+1}} = 0.
+\]
+
+Thus
+\[
+\theta k_t^\alpha - k_{t+1} = \frac{k_{t+1}}{\beta a_2}.
+\]
+
+Rearranging,
+\[
+k_{t+1} = \frac{\beta a_2}{1+\beta a_2} \theta k_t^\alpha.
+\]
+
+also,
+\[
+c_t = \theta k_t^\alpha - k_{t+1} = \frac{1}{1+\beta a_2} \theta k_t^\alpha.
+\]
+
+Back to the Bellman equation:
+\[
+V(k) = \log\left( \frac{\theta k^\alpha}{1+\beta a_2} \right)
++ \beta \Big( a_1 + a_2 \log\Big( \frac{\beta a_2}{1+\beta a_2}\theta k^\alpha \Big) \Big).
+\]
+
+\[
+V(k) = \log(\theta k^\alpha) - \log(1+\beta a_2)
++ \beta a_1 + \beta a_2 \Big( \log\Big(\frac{\beta a_2}{1+\beta a_2}\Big) + \log(\theta k^\alpha) \Big).
+\]
+\[
+= log(\theta) + \alpha \log(k) - \log(1+\beta a_2) + \beta a_1 + \beta a_2 \log\Big(\frac{\beta a_2}{1+\beta a_2}\Big) + \beta a_2 \log(\theta) + \alpha \beta a_2 \log(k).
+\]
+
+
+Looking for coefficients on $\log(k)$, we have
+\[
+a_2 = \alpha + \beta a_2 \alpha,
+\]
+
+which gives
+\[
+a_2 (1 - \alpha \beta) = \alpha,
+\]
+
+so
+\[
+a_2 = \frac{\alpha}{1-\alpha\beta}.
+\]
+
+similarly, looking for constant terms, we have
+\[
+a_1 = \log(\theta) - \log(1+\beta a_2) + \beta a_1 
++ \beta a_2 \left( \log\left(\frac{\beta a_2}{1+\beta a_2}\right) + \log \theta \right).
+\]
+
+Denote $C = \log(\theta) - \log(1+\beta a_2) + \beta a_2 \left( \log\left(\frac{\beta a_2}{1+\beta a_2}\right) + \log \theta \right)$, then
+\[
+a_1 = C + \beta a_1,
+\]
+so
+\[
+a_1  = \frac{C}{1-\beta}.
+\]
+Recall that $a_2 = \frac{\alpha}{1-\alpha\beta}$ and noticing that 
+\[
+1+\beta a_2 = \frac{1-\alpha\beta + \alpha\beta}{1-\alpha\beta} = \frac{1}{1-\alpha\beta},
+\]
+we have
+\[
+(1+\beta a_2) (1-\alpha\beta) = 1.
+\]
+Thus
+\[
+\beta a_2-\beta^2 a_2 \alpha = \alpha\beta,
+\]
+and then
+\[\frac{\beta a_2} {1+\beta a_2} = \alpha\beta.
+\]
+Plugging these into $C$, we have
+\[
+C = \log(\theta(1-\alpha\beta)) + \beta \frac{\alpha}{1-\alpha\beta} \log(\alpha\beta\theta).
+\]
+    \item 
+    Plug back into the function for $k_{t+1}$:
+\[
+k_{t+1} = \frac{\beta a_2}{1+\beta a_2} \theta k_t^\alpha = \alpha\beta \theta k_t^\alpha.
+\]
+similarly for $c_t$:
+\[
+c_t = \frac{1}{1+\beta a_2} \theta k_t^\alpha = (1-\alpha\beta) \theta k_t^\alpha.
+\]
+
+    \item 
+Plug in the values of parameters:
+\[
+c_0 = (1-0.5*0.9) * 2 *1^{0.5}=1.1,
+\]
+\[
+k_1 = 0.5*0.9*2*1^{0.5}=0.9,
+\]
+\[c_1 = (1-0.5*0.9) * 2 *0.9^{0.5}=1.043,
+\]
+\[
+k_2 = 0.5*0.9*2*0.9^{0.5}=0.854,
+\]
+\[
+c_2 = (1-0.5*0.9) * 2 *0.854^{0.5}=1.016.
+\]
+
+\end{enumerate}
+
+\end{document}
